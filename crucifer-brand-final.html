@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crucifer AI Technologies — Architecting True Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ═══════════════════════════════════════════════════
+   BRAND EXACT COLOR SYSTEM — FROM SVG LOGO
+   ═══════════════════════════════════════════════════ */
+:root{
+  /* Canvas — 90% of layout */
+  --canvas:#020408;
+  --canvas-2:#04080f;
+  --surface-1:#080e1c;
+  --surface-2:#0c1428;
+  --surface-3:#101c36;
+  --surface-4:#152548;
+
+  /* Ecosystem Cobalt — structural lines, nav framing */
+  --cobalt:#1a479c;
+  --cobalt-deep:#122a68;
+  --cobalt-mid:#1f5daf;
+  --cobalt-light:#38a8e8;
+
+  /* Ecosystem Cyan — active highlights, data connectors */
+  --cyan:#84e4ff;
+  --cyan-mid:#7debff;
+  --cyan-bright:#9de9ff;
+  --cyan-glow:rgba(132,228,255,.25);
+
+  /* Kinetic Orange — CTAs, focus targets, triangle vector */
+  --orange:#fa4e0a;
+  --orange-mid:#fb713b;
+  --orange-deep:#d65522;
+  --orange-light:#fc8d62;
+  --orange-glow:rgba(250,78,10,.3);
+
+  /* Sovereign Gold — restricted to elite gates */
+  --gold:#d79b00;
+  --gold-bright:#f4c430;
+  --gold-light:#fff3a1;
+  --gold-glow:rgba(244,196,48,.2);
+
+  /* Elite Crimson — gated alerts, warnings */
+  --crimson:#e84b68;
+  --crimson-deep:#b22145;
+  --crimson-dark:#5b0f2e;
+  --crimson-light:#ffd0da;
+
+  /* Text hierarchy */
+  --ink:#f0f4fc;
+  --text-2:#b0c4de;
+  --text-3:#6b839e;
+  --text-4:#3a5070;
+
+  /* Thin-line grid architecture */
+  --line:rgba(26,71,156,.1);
+  --line-med:rgba(26,71,156,.2);
+  --line-strong:rgba(132,228,255,.3);
+
+  /* Glassmorphism */
+  --glass:rgba(8,14,28,.72);
+  --glass-heavy:rgba(8,14,28,.88);
+
+  /* System */
+  --r:14px;--r-sm:8px;--r-lg:20px;--r-xl:28px;
+  --wrap:1300px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--canvas);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 36px}
+
+/* ═══════════════════════════════════════════════════
+   AMBIENT CANVAS — SUBTLE DEPTH LAYERS
+   ═══════════════════════════════════════════════════ */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 45% at 15% -5%,rgba(26,71,156,.12),transparent),
+    radial-gradient(ellipse 50% 35% at 90% 8%,rgba(132,228,255,.04),transparent),
+    radial-gradient(ellipse 40% 40% at 50% 100%,rgba(250,78,10,.02),transparent);
+}
+
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY — BRAND ALIGNED
+   ═══════════════════════════════════════════════════ */
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);display:inline-flex;align-items:center;gap:12px;font-weight:500}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--cyan)}
+.eyebrow.orange{color:var(--orange)}.eyebrow.orange::before{background:var(--orange)}
+.eyebrow.gold{color:var(--gold-bright)}.eyebrow.gold::before{background:var(--gold-bright)}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.03em;line-height:1.06}
+h1{font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-.04em;font-weight:700}
+h2{font-size:clamp(2rem,4vw,3.2rem)}
+h3{font-size:clamp(1.2rem,2vw,1.6rem)}
+p{color:var(--text-2)}
+.lead{font-size:clamp(.95rem,1.3vw,1.12rem);color:var(--text-2);max-width:54ch;line-height:1.75}
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION — THIN-LINE ARCHITECTURE
+   ═══════════════════════════════════════════════════ */
+nav.top{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 36px;transition:.5s var(--ease)}
+nav.top::before{content:"";position:absolute;inset:0;background:var(--glass-heavy);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);opacity:0;transition:.5s}
+nav.top.scrolled::before{opacity:1}
+.nav-inner{max-width:var(--wrap);margin:0 auto;height:72px;display:flex;align-items:center;gap:32px;position:relative}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:-.01em;color:var(--ink);flex-shrink:0}
+.brand-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--cobalt),var(--cobalt-light));display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff;box-shadow:0 2px 16px rgba(26,71,156,.3)}
+.nav-links{display:flex;gap:2px;margin-left:auto;align-items:center}
+.nav-links a{font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:500;color:var(--text-3);padding:9px 16px;border-radius:var(--r-sm);transition:.25s var(--ease);position:relative}
+.nav-links a:hover{color:var(--ink);background:rgba(132,228,255,.03)}
+.nav-links a.active{color:var(--cyan)}
+.nav-links a.active::after{content:"";position:absolute;bottom:2px;left:16px;right:16px;height:1px;background:var(--cyan)}
+.nav-cta{margin-left:12px!important;background:var(--orange)!important;color:#fff!important;font-weight:600!important;padding:10px 22px!important;border-radius:var(--r-sm)!important;box-shadow:0 4px 20px var(--orange-glow)}
+.nav-cta:hover{filter:brightness(1.1);box-shadow:0 6px 28px var(--orange-glow)}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--line-med);border-radius:var(--r-sm);padding:9px 11px;cursor:pointer;position:relative;z-index:101}
+.burger span{display:block;width:18px;height:1.5px;background:var(--ink);margin:4px 0;border-radius:2px}
+
+/* ═══════════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;gap:10px;cursor:pointer;border:0;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem;padding:15px 28px;border-radius:var(--r-sm);transition:.3s var(--ease-out);position:relative}
+.btn .tri{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.btn-orange{background:var(--orange);color:#fff;box-shadow:0 6px 28px var(--orange-glow)}
+.btn-orange:hover{transform:translateY(-2px);box-shadow:0 10px 36px var(--orange-glow)}
+.btn-cyan{background:rgba(132,228,255,.06);color:var(--cyan);border:1px solid var(--line-strong)}
+.btn-cyan:hover{background:rgba(132,228,255,.12);border-color:var(--cyan);transform:translateY(-1px)}
+.btn-gold{background:var(--gold-bright);color:#1a1008;box-shadow:0 6px 28px var(--gold-glow)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 36px var(--gold-glow)}
+.btn-dark{background:var(--surface-2);color:var(--text-2);border:1px solid var(--line-med)}
+.btn-dark:hover{background:var(--surface-3);border-color:var(--line-strong)}
+
+/* ═══════════════════════════════════════════════════
+   SECTION SYSTEM
+   ═══════════════════════════════════════════════════ */
+.sec{padding:130px 0;position:relative}
+.sec.sm{padding:70px 0}
+.divider{height:1px;background:linear-gradient(90deg,transparent 5%,var(--line-med) 30%,var(--line-strong) 50%,var(--line-med) 70%,transparent 95%);margin:0 auto;max-width:var(--wrap)}
+
+/* ═══════════════════════════════════════════════════
+   HERO — SOVEREIGN DARK LUX
+   ═══════════════════════════════════════════════════ */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding-top:90px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center}
+.hero-content{position:relative;z-index:2}
+.hero h1{margin:24px 0 28px}
+.hero .accent{color:var(--orange)}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;background:var(--surface-1);border:1px solid var(--line-med);border-radius:100px;padding:7px 18px 7px 10px;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-3);letter-spacing:.08em;margin-bottom:24px}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan-glow);animation:pulse 2.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Hero visual — cinematic depth */
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center;min-height:500px}
+.hero-glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(26,71,156,.1),rgba(132,228,255,.03),transparent 70%);filter:blur(50px)}
+
+/* Rotating ring system */
+.ring-sys{position:relative;width:340px;height:340px}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line)}
+.ring.r1{animation:spin 28s linear infinite}
+.ring.r2{inset:28px;animation:spin 40s linear infinite reverse;border-color:var(--line-med)}
+.ring.r3{inset:56px;animation:spin 22s linear infinite;border-color:var(--line-strong);border-width:1.5px}
+.ring.r4{inset:84px;border-color:var(--cobalt-light);border-width:2px;animation:glow-pulse 4s ease infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes glow-pulse{0%,100%{box-shadow:0 0 20px rgba(132,228,255,.08)}50%{box-shadow:0 0 50px rgba(132,228,255,.15)}}
+
+/* Orbit dots — brand colors */
+.orb-dot{position:absolute;width:8px;height:8px;border-radius:50%}
+.orb-dot.d1{top:0;left:50%;transform:translateX(-50%);background:var(--cyan);box-shadow:0 0 12px var(--cyan-glow);animation:orbit1 28s linear infinite}
+.orb-dot.d2{bottom:22%;right:2%;background:var(--orange);box-shadow:0 0 12px var(--orange-glow);animation:orbit2 40s linear infinite}
+.orb-dot.d3{top:32%;left:4%;background:var(--gold-bright);box-shadow:0 0 12px var(--gold-glow);animation:orbit3 22s linear infinite}
+@keyframes orbit1{0%{transform:translateX(-50%) rotate(0deg) translateY(-170px) rotate(0deg)}100%{transform:translateX(-50%) rotate(360deg) translateY(-170px) rotate(-360deg)}}
+@keyframes orbit2{0%{transform:rotate(0deg) translateX(-140px) rotate(0deg)}100%{transform:rotate(360deg) translateX(-140px) rotate(-360deg)}}
+@keyframes orbit3{0%{transform:rotate(0deg) translateX(-110px) rotate(0deg)}100%{transform:rotate(360deg) translateX(-110px) rotate(-360deg)}}
+
+/* Center emblem */
+.center-emblem{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--cobalt),var(--cobalt-light));display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2rem;color:#fff;box-shadow:0 0 50px rgba(26,71,156,.3),0 0 100px rgba(132,228,255,.08);z-index:5}
+
+/* ═══════════════════════════════════════════════════
+   TRUST BAR
+   ═══════════════════════════════════════════════════ */
+.trustbar{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;background:rgba(4,8,15,.5)}
+.track{display:flex;gap:48px;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.18em;color:var(--text-4);text-transform:uppercase;animation:marquee 42s linear infinite}
+.track span b{color:var(--cobalt-light);font-weight:500}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════════════
+   BENTO CARD — THIN-LINE ARCHITECTURE
+   ═══════════════════════════════════════════════════ */
+.card{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r);padding:30px;position:relative;overflow:hidden;transition:.4s var(--ease-out)}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-med),transparent)}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:.4s;
+  background:radial-gradient(350px 180px at var(--mx,100%) var(--my,0%),rgba(132,228,255,.03),transparent 70%)}
+.card:hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:0 16px 50px rgba(0,0,0,.25)}
+.card:hover::after{opacity:1}
+.card .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan)}
+.card h3{margin:12px 0 8px}
+.card p{font-size:.88rem}
+
+/* ═══════════════════════════════════════════════════
+   GATE / CRUCIBLE — GOLD RESTRICTED
+   ═══════════════════════════════════════════════════ */
+.gate{border:1px solid rgba(215,155,0,.2);background:linear-gradient(165deg,rgba(215,155,0,.03),var(--surface-1) 50%);border-radius:var(--r-xl);padding:52px;position:relative;overflow:hidden}
+.gate::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 250px at 100% 0%,rgba(244,196,48,.04),transparent 70%);pointer-events:none}
+.gate::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent 60%)}
+.gate>*{position:relative}
+.pipe{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;margin:28px 0}
+.pipe .p{background:var(--canvas);border:1px solid rgba(215,155,0,.18);border-radius:var(--r-sm);padding:14px 20px;transition:.3s var(--ease)}
+.pipe .p:hover{border-color:var(--gold);transform:translateY(-2px)}
+.pipe .p b{color:var(--gold-bright);font-size:1.5rem;font-weight:700;font-family:'Space Grotesk',sans-serif;display:block}
+.pipe .arw{color:var(--gold);font-size:1.2rem}
+
+/* ═══════════════════════════════════════════════════
+   PHASES
+   ═══════════════════════════════════════════════════ */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.phase{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;transition:.4s var(--ease-out)}
+.phase::before{content:"";position:absolute;top:0;left:0;width:2px;height:40px;background:linear-gradient(180deg,var(--cyan),transparent)}
+.phase::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--cyan),transparent 60%);opacity:0;transition:.3s}
+.phase:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+.phase:hover::after{opacity:1}
+.phase .idx{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.22em;color:var(--cyan)}
+.phase h4{font-size:1.1rem;margin:12px 0 4px}
+.phase .role{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--orange);letter-spacing:.05em;margin-bottom:12px}
+.phase p{font-size:.86rem}
+
+/* ═══════════════════════════════════════════════════
+   STATS
+   ═══════════════════════════════════════════════════ */
+.stats{display:flex;flex-wrap:wrap;gap:14px}
+.stat{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r);padding:22px 26px;flex:1;min-width:160px;position:relative;overflow:hidden;transition:.3s var(--ease)}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-med),transparent)}
+.stat:hover{border-color:var(--line-strong)}
+.stat .n{font-family:'Space Grotesk',sans-serif;font-size:2.2rem;font-weight:700;color:var(--ink);line-height:1.1}
+.stat .n.orange{color:var(--orange)}
+.stat .n.gold{color:var(--gold-bright)}
+.stat .n.cyan{color:var(--cyan)}
+.stat .l{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-4);margin-top:6px}
+
+/* ═══════════════════════════════════════════════════
+   ROI GAUGES
+   ═══════════════════════════════════════════════════ */
+.roi{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.gauge{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r);padding:32px;position:relative;overflow:hidden;transition:.4s var(--ease-out)}
+.gauge::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-med),transparent)}
+.gauge:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+.gauge .cap{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan)}
+.gauge .big{font-family:'Space Grotesk',sans-serif;font-size:3.6rem;font-weight:700;line-height:1;margin:12px 0 6px}
+.gauge.hard .big{color:var(--orange)}
+.gauge.soft .big{color:var(--cyan)}
+.bar{height:6px;border-radius:4px;background:var(--canvas);overflow:hidden;margin-top:16px}
+.bar i{display:block;height:100%;border-radius:4px;transition:width 1.6s var(--ease-out)}
+.gauge.hard .bar i{background:linear-gradient(90deg,var(--orange),var(--gold-bright))}
+.gauge.soft .bar i{background:linear-gradient(90deg,var(--cobalt-light),var(--cyan))}
+
+/* ═══════════════════════════════════════════════════
+   STEPS — TIMELINE
+   ═══════════════════════════════════════════════════ */
+.steps{display:grid;gap:0;border-left:1.5px solid var(--line-strong);margin-left:6px}
+.step{position:relative;padding:0 0 42px 36px}
+.step:last-child{padding-bottom:0}
+.step::before{content:"";position:absolute;left:-7px;top:4px;width:13px;height:13px;border-radius:50%;background:var(--canvas);border:2px solid var(--cyan);box-shadow:0 0 0 5px rgba(132,228,255,.06);transition:.3s}
+.step:hover::before{box-shadow:0 0 0 8px rgba(132,228,255,.12)}
+.step .k{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.2em;color:var(--orange);text-transform:uppercase}
+.step h4{margin:6px 0 8px}
+
+/* ═══════════════════════════════════════════════════
+   EXECUTIVES
+   ═══════════════════════════════════════════════════ */
+.exec-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.exec{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:.4s var(--ease-out)}
+.exec:hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.portrait{aspect-ratio:4/3;position:relative;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(130% 130% at 25% 10%,var(--surface-3),var(--canvas) 70%);border-bottom:1px solid var(--line)}
+.portrait .mono-mark{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:4.5rem;color:rgba(107,131,158,.07);letter-spacing:-.04em}
+.portrait::after{content:"PORTRAIT · STUDIO";position:absolute;bottom:14px;left:18px;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.22em;color:var(--text-4)}
+.exec .body{padding:28px}
+.exec .role{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;color:var(--orange);text-transform:uppercase}
+.exec h3{margin:8px 0 4px}
+.exec .frame{color:var(--cobalt-light);font-style:italic;font-size:.9rem;margin-bottom:12px}
+.exec p{font-size:.88rem}
+
+/* ═══════════════════════════════════════════════════
+   FORM
+   ═══════════════════════════════════════════════════ */
+.form{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r-lg);padding:36px;max-width:560px;position:relative;overflow:hidden}
+.form::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+.field{margin-bottom:18px}
+.field label{display:block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.field input,.field select{width:100%;background:var(--canvas);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 18px;color:var(--ink);font-family:'Inter',sans-serif;font-size:.92rem;transition:.3s var(--ease)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(132,228,255,.06)}
+.field input::placeholder{color:var(--text-4)}
+
+/* ═══════════════════════════════════════════════════
+   JD CARDS
+   ═══════════════════════════════════════════════════ */
+.jd{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.jd .cell{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;transition:.4s var(--ease-out)}
+.jd .cell::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-med),transparent)}
+.jd .cell:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+.jd .cell .dept{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);border:1px solid var(--line-strong);border-radius:20px;padding:4px 12px;margin-bottom:16px}
+.jd .cell .lvl{color:var(--orange)}
+.jd .cell h4{font-size:1.05rem;margin-bottom:10px}
+.jd .cell .apply{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--orange);display:inline-flex;gap:8px;align-items:center;cursor:pointer;transition:.3s}
+.jd .cell .apply:hover{color:var(--gold-bright)}
+.jd .cell .apply::after{content:"→";transition:.3s}
+.jd .cell:hover .apply::after{transform:translateX(4px)}
+
+/* ═══════════════════════════════════════════════════
+   MANIFESTO
+   ═══════════════════════════════════════════════════ */
+.manifesto{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3.8vw,3rem);font-weight:600;line-height:1.2;max-width:22ch}
+.manifesto .z{color:var(--orange)}
+.quote{border-left:2px solid var(--line-strong);padding-left:26px;margin-top:28px;max-width:58ch}
+.quote p{color:var(--cobalt-light);font-size:1rem;line-height:1.75}
+
+/* ═══════════════════════════════════════════════════
+   SUB-LOGO
+   ═══════════════════════════════════════════════════ */
+.sublogo{background:linear-gradient(160deg,#fff,#eef4f8);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:22px 32px;display:inline-flex;box-shadow:0 20px 50px rgba(0,0,0,.45),0 0 0 1px rgba(132,228,255,.05)}
+.sublogo img{height:56px;width:auto}
+.logo-plate{background:linear-gradient(160deg,#fff,#e4eef6);border-radius:var(--r);padding:36px 44px;display:inline-flex;box-shadow:0 24px 70px rgba(0,0,0,.45),0 0 0 1px rgba(132,228,255,.06)}
+
+/* ═══════════════════════════════════════════════════
+   ALERT — CRIMSON RESTRICTED
+   ═══════════════════════════════════════════════════ */
+.alert{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);border:1px solid rgba(232,75,104,.3);border-radius:var(--r-sm);padding:8px 16px;background:rgba(232,75,104,.04)}
+.alert::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--crimson);box-shadow:0 0 10px rgba(232,75,104,.4)}
+
+/* ═══════════════════════════════════════════════════
+   GRID HELPERS
+   ═══════════════════════════════════════════════════ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.sec-head{max-width:62ch;margin-bottom:48px}
+.sec-head h2{margin:18px 0}
+.mt-s{margin-top:22px}.mt-m{margin-top:36px}.mt-l{margin-top:68px}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════════════════════ */
+[data-reveal]{opacity:0;transition:.85s var(--ease-out)}
+[data-reveal="up"]{transform:translateY(50px)}
+[data-reveal="left"]{transform:translateX(-60px)}
+[data-reveal="right"]{transform:translateX(60px)}
+[data-reveal="scale"]{transform:scale(.92)}
+[data-reveal="fade"]{transform:none}
+[data-reveal].vis{opacity:1;transform:none}
+.stag>[data-reveal]:nth-child(1){transition-delay:.05s}
+.stag>[data-reveal]:nth-child(2){transition-delay:.12s}
+.stag>[data-reveal]:nth-child(3){transition-delay:.19s}
+.stag>[data-reveal]:nth-child(4){transition-delay:.26s}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL PROGRESS
+   ═══════════════════════════════════════════════════ */
+.scroll-prog{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--cobalt),var(--cyan),var(--orange),var(--gold-bright));transform-origin:left;transform:scaleX(0);transition:transform .08s linear}
+
+/* ═══════════════════════════════════════════════════
+   FLYWHEEL DETAIL
+   ═══════════════════════════════════════════════════ */
+.fly-detail{background:linear-gradient(165deg,var(--surface-2),var(--surface-1));border:1px solid var(--line);border-radius:var(--r-lg);padding:38px;min-height:300px;position:relative;overflow:hidden}
+.fly-detail::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════ */
+footer.foot{border-top:1px solid var(--line);background:linear-gradient(180deg,transparent,rgba(2,4,8,.4))}
+.foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:44px;padding:64px 0 44px}
+.foot h5{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin-bottom:18px}
+.foot p{font-size:.86rem}
+.foot .region{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--text-2);line-height:2.2}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--text-4);border:1px solid var(--line);border-radius:6px;padding:6px 12px;transition:.3s}
+.badge:hover{border-color:var(--line-med);color:var(--text-3)}
+.foot-btm{border-top:1px solid var(--line);padding:22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'JetBrains Mono',monospace;font-size:.64rem;color:var(--text-4);letter-spacing:.1em}
+.foot-btm .permit{color:var(--gold)}
+
+/* ═══════════════════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════════════════ */
+@media(prefers-reduced-motion:reduce){
+  .ring,.track,.orb-dot,.hero-glow{animation:none!important}
+  [data-reveal]{opacity:1;transform:none;transition:none}
+  *{scroll-behavior:auto}
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+@media(max-width:1024px){
+  .hero .wrap{grid-template-columns:1fr;gap:36px}
+  .hero-visual{min-height:320px}
+  .ring-sys{width:260px;height:260px}
+  .grid-2{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:900px){
+  .nav-links{display:none;position:absolute;top:72px;left:-36px;right:-36px;flex-direction:column;background:var(--glass-heavy);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);padding:16px 36px}
+  .nav-links.open{display:flex}
+  .nav-links a{width:100%;text-align:left;padding:13px 18px}
+  .nav-cta{margin:10px 0 0!important}
+  .burger{display:block}
+  .phases{grid-template-columns:1fr 1fr}
+  .roi,.exec-grid,.jd,.foot-top{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .phases{grid-template-columns:1fr}
+  .hero{min-height:auto;padding:100px 0 50px}
+  .sec{padding:80px 0}
+  .gate{padding:32px 22px}
+  .wrap{padding:0 20px}
+  nav.top{padding:0 20px}
+  .pipe{gap:8px}
+  .pipe .p{padding:10px 14px}
+  .pipe .p b{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-prog" id="scrollProg"></div>
+
+<!-- NAV -->
+<nav class="top" id="topNav">
+  <div class="nav-inner">
+    <a class="brand" href="#hero" onclick="smoothTo('hero');return false">
+      <svg width="40" height="40" viewBox="0 0 215 192" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <g>
+          <path fill="#1a479c" d="M88.11,55.42c5.12-4.73,11.96-7.6,19.46-7.6,6.52,0,12.55,2.17,17.37,5.84,1.79,1.36,3.95,2.18,6.19,2.3.01,0,.02,0,.04,0,5.33.4,9.96.25,13.99-.3-4.65-8.29-11.94-14.89-20.74-18.64-.07-.03-.15-.06-.22-.09-1.2-.5-2.43-.96-3.69-1.35-.09-.03-.17-.05-.26-.08-1.3-.4-2.63-.74-3.98-1.02-.01,0-.02,0-.04,0-2.8-.57-5.7-.87-8.67-.87-23.8,0-43.09,19.29-43.09,43.09,0,1.48.08,2.95.22,4.39,0,.01,0,.03,0,.04.14,1.4.36,2.77.63,4.12.02.09.04.19.06.28.26,1.23.57,2.44.93,3.63.06.2.12.41.18.61.33,1.03.71,2.04,1.11,3.04.13.32.25.64.38.95.35.81.75,1.6,1.15,2.38.23.44.43.9.67,1.34.24.43.51.84.77,1.26,1.55,2.58,3.35,4.99,5.38,7.19.19.21.38.43.58.63.61.63,1.25,1.24,1.9,1.83.32.3.65.6.98.89.57.5,1.17.97,1.77,1.44.48.37.97.74,1.46,1.09.5.36,1.01.7,1.52,1.04.7.45,1.42.89,2.14,1.3.35.2.71.41,1.07.6,1.06.57,2.15,1.1,3.27,1.57.06.03.12.05.17.08,5.15,2.17,10.8,3.37,16.73,3.37,8.86,0,17.09-2.68,23.94-7.26.09-.06.18-.12.27-.18,1.08-.73,2.12-1.51,3.12-2.33.08-.06.15-.13.23-.2,1.73-1.44,3.32-3.04,4.81-4.73l-10.68-9.35c-6.12,6.99-15.57,11-25.86,9.55-12.35-1.74-22.42-11.64-24.34-23.97-1.57-10.11,2.13-19.5,8.83-25.71.06-.07.13-.13.23-.2Z"/>
+          <path fill="#84e4ff" d="M6.09,165.81L.07,179.18h2.56l1.32-3.09h6.68l1.34,3.09h2.6l-6.04-13.37h-2.45ZM4.79,174.14l2.5-5.84,2.52,5.84h-5.02Z"/>
+          <rect fill="#84e4ff" x="18.54" y="165.81" width="2.48" height="13.37"/>
+          <polygon fill="#84e4ff" points="32.73,167.92 37.17,167.92 37.17,179.18 39.65,179.18 39.65,167.92 44.08,167.92 44.08,165.81 32.73,165.81 32.73,167.92"/>
+          <polygon fill="#84e4ff" points="50.71,173.42 57.16,173.42 57.16,171.37 50.71,171.37 50.71,167.9 57.99,167.9 57.99,165.81 48.23,165.81 48.23,179.18 58.25,179.18 58.25,177.1 50.71,177.1 50.71,173.42"/>
+          <rect fill="#84e4ff" x="182.08" y="165.81" width="2.48" height="13.37"/>
+          <polygon fill="#fa4e0a" x="0" y="187.52" width="37.18" height="1.03"/>
+          <polygon fill="#fa4e0a" x="177.96" y="187.52" width="37.18" height="1.03"/>
+        </g>
+      </svg>
+      <span>Crucifer AI</span>
+    </a>
+    <div class="nav-links" id="navlinks">
+      <a href="#hero" class="active" data-s="hero">Home</a>
+      <a href="#flywheel" data-s="flywheel">Ecosystem</a>
+      <a href="#academy" data-s="academy">Academy</a>
+      <a href="#raise" data-s="raise">RAISE</a>
+      <a href="#paws" data-s="paws">PAWS</a>
+      <a href="#leadership" data-s="leadership">Leadership</a>
+      <a href="#careers" data-s="careers">Careers</a>
+      <a href="#academy" class="nav-cta" onclick="smoothTo('academy');return false">Begin Assessment</a>
+    </div>
+    <button class="burger" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero sec" id="hero">
+  <div class="wrap">
+    <div class="hero-content">
+      <div data-reveal="up">
+        <div class="hero-badge"><span class="dot"></span>Systems Online · Dubai HQ</div>
+        <div class="eyebrow">Deep-Tech Machine Learning · Engineered in Dubai</div>
+      </div>
+      <h1 data-reveal="up">Redefining Human Potential Through <span class="accent">Intelligent Automation.</span></h1>
+      <p class="lead" data-reveal="up">We are not an agency. We are a deep-tech machine learning company engineering autonomous ecosystems, elite human capital, and proprietary IP for the global enterprise.</p>
+      <div class="hero-actions" data-reveal="up">
+        <button class="btn btn-orange" onclick="smoothTo('raise')"><span class="tri"></span>Build Your Intelligence</button>
+        <button class="btn btn-cyan" onclick="smoothTo('academy')">Master The Architecture</button>
+      </div>
+    </div>
+    <div class="hero-visual" data-reveal="right">
+      <div class="hero-glow"></div>
+      <div class="ring-sys">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="ring r4"></div>
+        <div class="orb-dot d1"></div>
+        <div class="orb-dot d2"></div>
+        <div class="orb-dot d3"></div>
+        <div class="center-emblem">C</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trustbar">
+  <div class="track" id="trust"></div>
+</div>
+
+<!-- ═══════════ FLYWHEEL ═══════════ -->
+<section class="sec" id="flywheel">
+  <div class="wrap">
+    <div class="sec-head" data-reveal="up">
+      <div class="eyebrow">The Ecosystem</div>
+      <h2>The Crucifer Strategic Flywheel</h2>
+      <p>A closed-loop ecosystem where every piece of innovation accelerates the next. Our pillars are not siloed business units — they are interconnected engines driving a singular global vision. Select a node.</p>
+    </div>
+    <div class="grid-2">
+      <div data-reveal="left" style="display:flex;justify-content:center">
+        <div style="position:relative;width:100%;max-width:440px;aspect-ratio:1">
+          <svg viewBox="0 0 500 500" style="width:100%;height:100%">
+            <defs>
+              <radialGradient id="hubg" cx="50%" cy="42%" r="60%">
+                <stop offset="0%" stop-color="#38a8e8"/><stop offset="55%" stop-color="#1a479c"/><stop offset="100%" stop-color="#0a1e52"/>
+              </radialGradient>
+              <linearGradient id="tri" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f4c430"/><stop offset="100%" stop-color="#fa4e0a"/>
+              </linearGradient>
+            </defs>
+            <g style="transform-origin:250px 250px;animation:spin 50s linear infinite"><circle cx="250" cy="250" r="196" fill="none" stroke="rgba(26,71,156,.06)" stroke-width=".7" stroke-dasharray="2 14"/></g>
+            <g style="transform-origin:250px 250px;animation:spin 72s linear infinite reverse"><circle cx="250" cy="250" r="158" fill="none" stroke="rgba(26,71,156,.1)" stroke-width=".7" stroke-dasharray="1 18"/></g>
+            <g id="connectors" stroke="rgba(26,71,156,.12)" stroke-width="1.2"></g>
+            <circle cx="250" cy="250" r="68" fill="url(#hubg)" stroke="rgba(56,168,232,.3)" stroke-width="1.5"/>
+            <circle cx="250" cy="250" r="68" fill="none" stroke="rgba(132,228,255,.12)" stroke-width="1"/>
+            <path d="M234 220 L284 250 L234 280 Z" fill="url(#tri)"/>
+            <text x="250" y="338" font-family="Space Grotesk,sans-serif" fill="#f0f4fc" font-weight="600" font-size="11" text-anchor="middle">CRUCIFER · CORE</text>
+            <g id="nodes"></g>
+          </svg>
+        </div>
+      </div>
+      <div data-reveal="right">
+        <div class="fly-detail" id="flyDetail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ ACADEMY ═══════════ -->
+<section class="sec" id="academy">
+  <div class="wrap">
+    <div class="grid-2">
+      <div data-reveal="left">
+        <div class="eyebrow">Pillar 01 · Human Mastery Engine</div>
+        <h1 style="font-size:clamp(2.2rem,4.4vw,3.6rem);margin:22px 0 24px">Engineering Human Mastery.</h1>
+        <p class="lead">100% Knowledge Guarantee. No attendance certificates. The technology landscape is flooded with superficial bootcamps and empty participation badges — the Crucifer Academy exists to bridge the elite talent gap and transform ambitious individuals into industry-ready AI engineers.</p>
+        <div class="mt-s"><span class="alert">Filter · Only pure mastery passes</span></div>
+      </div>
+      <div style="display:flex;justify-content:center" data-reveal="right">
+        <div class="logo-plate"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcwAAAHMCAYAAABY25iGAACAAElEQVR42uydd5wlR3W2n1PV3TdNns1JWuWcUAQRhZAFCAQmmGByxoDBNsaWwQZjzIexMckmBxMcyJYMmCyCACEhlPMmbd7ZiTd2d9X5/ui+s7O7klAGo3p+v7s74c6dvvfW1Fvn1Kn3QCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQCAQCAQCgUAgEAgEAoFAIBAIBAKBQB8bXoJA4DfDI857FUsOPlUaIytthJCo0k074YUJBH5LkfASBAIPLEc87g1ExkddZ9fmKueY+vhpUaX2C9ea/E42ccst8ejqdMP//j9ceKkCgSCYgcCDjePPfR3DUS7be5VFmTcPy1XOT715TM/JqsbiA2R40XL1aWu77879xHdnLtT21MX5zhs2m/qoW/+TT4YXMBAIghkI/O7y8PNezfp2nYEor2feHJepPDHz5gk9b45Mvak4FVRhbOlqRheuQVE0z/BZx/lec6P2mt8nnbtQuzM/082X7pTB5Xrrpf8VXthAIAhmIPC7wRGPewOx8VHH2QNylbMzb85PvTmt581IroLXhX92WgrmalQV9Q7nHN7lqEvRrJOStm8ka31L8vbXJZ375YrvvHdm5ynn6w2/+Gp4sQOBIJiBwP8tjj/3dYzFmWzpVsdzlTNKkTyr583qzBvjFoikLPirU91bML0vxNKXoumcQ12GuhTJuy2Td64S1/2Gcd1vWte5tlVb1V6++4dcdslF4U0IBIJgBgK/nTzhKS/nytkhBqO8lnpzbK7yxNSbJ6TeHJ16U8lV0L5Qyu3/sd2xYBai6RZ8XESdOfgU67pT1vd+YTW9yGr+3USyW3o+Sk8YnOBLX/50eHMCgSCYgcBvniPPeT2RqC1Trmdlas5PnTmj583ovilX+TV/YXdXMBd+js8wPtVI0+2RZj+JxV8YGX9xzfjNmYq7/n/fE96sQCAIZiDwwHLS41/L6lpHrp8bHMtVTu+nXFNvDkjvJOX669hPMEth9D6fT8n+OgFVl4PmxDiXGL8xMf77keiFsfE/G46znT1n9apv/nN4EwOBIJiBwP3Dk37/pVw5M0zdumrqzTG5yhNSb56YenNM6k31rqRc741gugXCuL9g7ht1OlQVESUSJTY+rRh/Yyz6rcj4r8eiv3zNETfPfHrdgfqLi94f3txAIAhmIHDvOfKc1xMbbzsuWp15OSsrzkyekTo7nt3NlOvdF8x9hHCvFO2dR5yqfq8/aVOKZ2J8KzH+qtj4b0Si30yMv3YqTdqHDDT58YUfDG94IBAEMxC46zzk8a/l5NEp+cGuxSNZkXJ9curN2WXK1ToE9L4RybslmAtEc/+Ic6GA..."></div>
+      </div>
+    </div>
+
+    <div class="gate mt-l" data-reveal="scale">
+      <div class="eyebrow gold">The Admissions Crucible</div>
+      <h2 style="margin:18px 0 16px;max-width:22ch">We Do Not Care About Your Background. We Care About Your Processing Speed.</h2>
+      <p style="max-width:64ch">Zero coding prerequisites. We do not filter for privilege, past experience, or expensive degrees — we filter purely for raw human capability.</p>
+      <div class="pipe">
+        <div class="p"><b>1,500</b>assessments</div>
+        <span class="arw">→</span>
+        <div class="p"><b>10%</b>pass rate</div>
+        <span class="arw">→</span>
+        <div class="p"><b>~125</b>admitted / quarter</div>
+      </div>
+      <button class="btn btn-gold"><span class="tri" style="border-left-color:#1a1008"></span>Enter The Admissions Crucible</button>
+    </div>
+
+    <div class="mt-l">
+      <div class="sec-head" data-reveal="up">
+        <div class="eyebrow">The Dual-Layered Gated Curriculum</div>
+        <h2>The 4-Course Enterprise Lifecycle</h2>
+        <p>Progression is strictly gated — you cannot unlock the next phase until you achieve definitive mastery of the current one.</p>
+      </div>
+      <div class="phases stag">
+        <div class="phase" data-reveal="up"><div class="idx">PHASE 01 · THE FUEL</div><h4>The Plumber</h4><div class="role">Data Engineering & Vector Pipelines</div><p>Turning messy corporate data into pristine, vectorized fuel for advanced models.</p></div>
+        <div class="phase" data-reveal="up"><div class="idx">PHASE 02 · THE BRAIN</div><h4>The Architect</h4><div class="role">Agentic AI Systems</div><p>Building autonomous, multi-agent frameworks for complex business decisions.</p></div>
+        <div class="phase" data-reveal="up"><div class="idx">PHASE 03 · THE MUSCLE</div><h4>The Operator</h4><div class="role">Edge AI & Applied Robotics</div><p>Bringing AI into the physical world — drones, vision, and robotics.</p></div>
+        <div class="phase" data-reveal="up"><div class="idx">PHASE 04 · THE SHIELD</div><h4>The Guardian</h4><div class="role">Enterprise Deployment & MLOps</div><p>Secure cloud infrastructure to deploy, scale, and monitor AI globally.</p></div>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-l">
+      <div data-reveal="left">
+        <div class="eyebrow">The Recruiter Channel</div>
+        <h2 style="margin:18px 0 20px">Secure Your Outlier Talent Pipeline.</h2>
+        <p>Every Crucifer graduate is forced through a rigorous, psychometrically validated pipeline backed by our 100% Knowledge Guarantee.</p>
+      </div>
+      <div class="form" data-reveal="right">
+        <div class="field"><label>Company Name</label><input placeholder="Enterprise legal entity"></div>
+        <div class="field"><label>CTO / Head of Engineering Contact Email</label><input type="email" placeholder="cto@company.com"></div>
+        <div class="field"><label>Target Market</label>
+          <select><option>UAE Market</option><option>India ODC</option><option>US Expansion</option><option>Singapore Hub</option></select>
+        </div>
+        <button class="btn btn-orange" style="width:100%;justify-content:center"><span class="tri"></span>Request Corporate MOU</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ RAISE ═══════════ -->
+<section class="sec" id="raise">
+  <div class="wrap">
+    <div data-reveal="up">
+      <div class="sublogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAggAAAD8CAYAAAASYFxFAACAAElEQVR42uyddZxlSXm/n7eOXGvvcZ91x3YXXSRAgIXFWWSBCMECIRCIkOQXJSwJBIthwWWB4O7OLrL4uoz7tF8951S9vz/qtk73TM9M9/TMcJ7P527vXDm3TtW5p7711iuQk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5MzX2SpG5CzeDzm3TdjmzWyWpXWyDCtoSHSWh2btLBphohw88f+YqmbmZOTk5NzEpILhFOQc174eUwUEIQBgXEYEiRrQdbEJQ1cq4FtNrDNJlmziW0liDHEnZ0ExSJBFIIIqgo64+ACMn5ZCIgIiPCrD7x8qU87JycnJycEkguEk5zNz/s86hzqFNGMyKQUTI2ega9z4MK/jePW7krg6t1ik15c2o9Le7FZjzrbpdZWcLak1hZUNVDnQBVVtUACNIA6MCowjMggMIgwCIyo02qlrytJGi0vJCYEg//7s3e9ZKm7JycnJydnkcgFwknImS/5ihcEzhJpnceufBcf3vpnHTHVVXGQbQ6D7JxA7DmGbLOoXYvaZTjbibqSqotRNei4aWAWK8FMBEAckAINRMaAARHZjbAF5HYRbkfkbmDvRVc9dPTWr/7Af1TEiwYj/Pg/n7/UXZeTk5OTs0DkAuEk4Zw/+1bbSpCyOrybu6rnd8XUNoeudU+jyWUBySVG082GbJnBFcH5wTOCmAAJQySKkDCCMELCEIIATIC2h9lvKaj/6xziLKIOsRm4DLIMzTLUZjhrUesmdIaItBAGENkqIr9G+LGI/By4u9jdMZI1kwnLwvVv+oOl7s6cnJycnOMkFwhLyHl//QPUOkQtt/7mIbL5nO+tjFzzXoG2Hhpq8wGBJucZTfoNmRgBCQNMoUhQLhN2dBBUOjDlClIoQhS3xYBBERQmJndt/2Pq827c/0BAUEQVoxajGYFNMVkLkgZar5JVq6TVGlmzhU2tFxiAiAwgcpuI/FCE7yDys9rAyJ7uNctVBBDhe6+7Zqm7OScnJyfnGMgFwgnmon/+CS6zqFO6zRAHGn3LQ21dHmrzykibDwm1eWagSdGII4hCgkqFuKebqLeXsLMLKZZQDFnqyJopWSPFtlJcmoJ1frIXCIxgQiEMDUFovENjZAiiABP6hwQGCYwXFiI4DJmCdUJmFaeAU0QtgW0hrTpubIR0aIjWyBhpveHPRUGEFiJ3i8j3ROSLCDeU+7v3JbUmIiDG8M2/f+pSd39OTk5OzjzJBcIJ4qLX/qxtLXDUkrgQ07w41OTxkTYfG2vjglCbxdA4gmKBuLeH4rJlRL29mGKRNFEaIw2qB8ZoDFRJqg1ckgFKEBjCOCAqhsTFiKgYERZCgjggCAM1YYBpCwETSPuvkSDwwiGMDGEUEMWGMA4JY+P..."></div>
+    </div>
+    <div class="mt-m" data-reveal="up">
+      <div class="eyebrow orange">Pillar 02 · ROI-Driven AI Systems Engine</div>
+      <h1 style="font-size:clamp(2.1rem,4.4vw,3.4rem);max-width:20ch;margin:22px 0 24px">Stop Renting Superficial AI. Start Owning Proprietary Intelligence.</h1>
+      <p class="lead">Most enterprises bleed capital renting third-party APIs that only automate the "happy path." Crucifer RAISE designs, trains, and embeds deep custom machine learning into the bedrock of your business.</p>
+    </div>
+
+    <div class="grid-2 mt-l">
+      <div data-reveal="left">
+        <div class="eyebrow">Asset Creation</div>
+        <h2 style="margin:18px 0 20px">Human-Parity Exception Handling.</h2>
+        <p>We train agents specifically on how your top human workers process edge cases, nuances, and exceptions — producing resilient, autonomous systems.</p>
+      </div>
+      <div class="bento stag" style="grid-template-columns:1fr 1fr;display:grid;gap:14px">
+        <div class="card" data-reveal="up"><div class="tag">Document Intelligence</div><h3 style="font-size:1.05rem;margin-top:10px">Parse</h3><p>Structured extraction from unstructured documents.</p></div>
+        <div class="card" data-reveal="up"><div class="tag">Computer Vision</div><h3 style="font-size:1.05rem;margin-top:10px">Perceive</h3><p>Spatial reasoning across live operational feeds.</p></div>
+        <div class="card" data-reveal="up"><div class="tag">Generative AI</div><h3 style="font-size:1.05rem;margin-top:10px">Produce</h3><p>Context-aware synthesis grounded in proprietary data.</p></div>
+        <div class="card" data-reveal="up" style="border-color:var(--line-strong)"><div class="tag" style="color:var(--orange)">Custom ML · Core</div><h3 style="font-size:1.05rem;margin-top:10px">Own</h3><p>Edge-case mastery trained on your best people.</p></div>
+      </div>
+    </div>
+
+    <div class="mt-l">
+      <div class="sec-head" data-reveal="up">
+        <div class="eyebrow">The ROI-First Consulting Framework</div>
+        <h2>We Do Not Write One Line of Code Without a Verified Financial Case.</h2>
+      </div>
+      <div class="roi">
+        <div class="gauge hard" data-reveal="left">
+          <div class="cap">Hard ROI Target</div>
+          <div class="big">200%</div>
+          <p>Direct financial return through cost reduction and productivity scaling.</p>
+          <div class="bar"><i style="width:0%" data-width="100%"></i></div>
+        </div>
+        <div class="gauge soft" data-reveal="right">
+          <div class="cap">Soft ROI Target</div>
+          <div class="big">+200%</div>
+          <p>Streamlined processes that improve satisfaction and brand goodwill.</p>
+          <div class="bar"><i style="width:0%" data-width="100%"></i></div>
+        </div>
+      </div>
+      <div class="stat mt-m" data-reveal="scale" style="text-align:center;max-width:320px;margin-left:auto;margin-right:auto">
+        <div class="n orange" style="font-size:2.6rem">400%</div>
+        <div class="l">Combined ROI Engine · Guaranteed Pre-Build</div>
+      </div>
+    </div>
+
+    <div class="mt-l">
+      <div class="sec-head" data-reveal="up">
+        <div class="eyebrow">The Ultimate B2B Advantage</div>
+        <h2>The Crucifer Squad.</h2>
+        <p>We deploy a unified 4-person squad drawn directly from the Academy's lifecycle.</p>
+      </div>
+      <div class="phases stag">
+        <div class="phase" data-reveal="up"><div class="idx">THE FUEL</div><h4>Data Engineer</h4><div class="role">Cleans & vectorizes the servers</div></div>
+        <div class="phase" data-reveal="up"><div class="idx">THE BRAIN</div><h4>Agentic Architect</h4><div class="role">Builds multi-agent logic</div></div>
+        <div class="phase" data-reveal="up"><div class="idx">THE MUSCLE</div><h4>Edge Specialist</h4><div class="role">Physical automation & vision</div></div>
+        <div class="phase" data-reveal="up"><div class="idx">THE SHIELD</div><h4>MLOps Guardian</h4><div class="role">Deploys it securely</div></div>
+      </div>
+      <div class="mt-m" data-reveal="up"><button class="btn btn-orange"><span class="tri"></span>Request an Operational Workflow Audit</button></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ PAWS ═══════════ -->
+<section class="sec" id="paws">
+  <div class="wrap">
+    <div data-reveal="up">
+      <div class="sublogo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAggAAADhCAYAAACtKE0AAACAAElEQVR42uydd5wcZf3H389suZ7eA0kgQKihJnQQAigIAgqiIBasgCAg1YoNVESaiu2HBSkCItJ7DyWUhJZGQkjvl3J1yzzf3x/fmd3Zvd273Su5uzCfvCa7NzvlmWdmnu/n+VYIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQIESJEiBAhQoQI0UWY3m5AiJ7F2+dPabNu8o2v9XazQoQIESJEH0e0txsQosdhyL3PFnB7u1EhQoQIEaJvIyQIWz8mAj8Hary//wP8vbcbFSJEiBAh+jZCgrD1YxBwPFmCMK+3GxQiRIgQIfo+nN5uQIgtAhv4Lr3dmBAhQoQI0fcRahC2frQAc4E67+/Vvd2gECFChAjR9xEShK0f81ETgx+x0tzbDQoRIkSIEH0fIUHY+pEC1vR2I0KECBEiRIgQIUKECBEiRIgQIUKECBEixNaGMJPiVo6x5/+rzbrlN36ht5sVIkSIECH6OEIfhK0fg4GRgb+XAw293agQIUKECNG3EeZB2PpxMvCctzwFHNzbDQoRIkSIEH0foQZh60cNMML7boHK3m5QiBAhQoTo+wg1CFs/gn4mDqHfSYgQIUKEKAGhBmHrx9vAn7zvFljU2w0KESJEiBB9HyFB2PrxrLe0wdvnT2mzbvKNr/V2e0OECBEiRB9ASBA+2tgGOAaIeH+/DLzb240KESJEiBC9j5AgbOV4PHpz5vtuv52e//PuwB+BmPf3RYQEIUSIECFCEDophsgt/xyWgg4RIkSIEEBIED4KMEAVhaMXBHVc9JeQIIQIESJECCA0MfRbjHx4Y5t1q48bVGjTCLA9MBdw8357CziTLFGc1dvXFSJEiBAh+gZCgrD1IwJsB7xPW4KwCrintxsYIkSIECH6HkKC0H9xKnCg970B+D2wpsB2DjCabKRCBmFIY4gQIUKEKIaQIPRffBz4qvd9PXAHhQlCBBhKAYIQIkSIECFCFEPopNh/YQPf3Xa2iwADCAlCiBAhQoQoA6EGof+iEdjgfd9AcZLgANWEZDBEiBAhQpSBkCD0X1wH/NP7ngKWFtnOQSs4tglzHHv+vwrusPzGL/T2tYUIESJEiF5GSBD6L5ZSnBQE4aD3uVAehEq0HLQPQR0eU718cSFChAgRoncREoR+imDOA18TkK8R8DQBhuIE4VjgJ4G/E8B5wCu9fX0hQoQIEaJ3ERKErQPj0MJLPlLAe0AzSgwcChOEocAegb/TQF1vX0yIECFChOh9hAShH6BQ1kTI0SKcCVwR+GkdcBwwmyxBKIT81MouYbrlECFChAhBSBD6CwzqK+DfLxdoIhvqWEGuL0ErWVJgvKWQ4M8nDsVMESFChAgR4iOGkCD0D8SB3wBTvL/nAmcDm72/84V/qVqARcB9gb+TFE62FCJEiBAhPmIICUL/gAPsDOzj/R0lN/FRviYgQlYTIN7vhcwMTwPP5q1rL+lSiBAhQoT4iCAkCP0H7an+HwU2Bv5uAVZ639sLc/TLPIcIESJEiBA5CAlC/4AF3iRrOngfjTjwMd1biiFGgVTLYUKkECFChAhRDCFB6B9IApeTFfIWzVkAdCjoDerDENZiCBEiRIgQJSMkCP0DQoAQlAkHjXKI9fZFhAgRIkSI/oOQIPQDBLMmdgIRoIo8gvD2+VPabDj5xtd6+1JDhAgRIkQfwVZ..."></div>
+    </div>
+    <div class="mt-m" data-reveal="up">
+      <div class="eyebrow">Pillar 03 · Primal Automated Wisdom Source</div>
+      <h1 style="font-size:clamp(2.1rem,4.4vw,3.4rem);max-width:22ch;margin:22px 0 24px">The Primal Source of Automated Wisdom.</h1>
+      <p class="lead">Over a $1M, 12-month R&D sprint, Crucifer AI is building an LMM pipeline capable of ingesting completely unstructured human knowledge and autonomously generating a "Master Training Kit" in under 15 minutes.</p>
+    </div>
+    <div class="stats mt-m stag">
+      <div class="stat" data-reveal="up"><div class="n cyan">$1M</div><div class="l">R&D Sprint · Investor Funded</div></div>
+      <div class="stat" data-reveal="up"><div class="n">12mo</div><div class="l">Development Horizon</div></div>
+      <div class="stat" data-reveal="up"><div class="n orange">&lt;15min</div><div class="l">Kit Render SLA</div></div>
+    </div>
+
+    <div class="grid-2 mt-l">
+      <div data-reveal="left">
+        <div class="eyebrow">Engine Architecture</div>
+        <h2 style="margin:18px 0 18px">Cognitive Routing & Autonomous News-Anchor Delivery.</h2>
+        <p>The engine autonomously parses multi-format datasets, maps them against our cognitive matrix, and formats content across 4 audience tiers.</p>
+        <div class="mt-m"><button class="btn btn-cyan">View the R&D Roadmap</button></div>
+      </div>
+      <div class="steps" data-reveal="right">
+        <div class="step"><div class="k">01 · Semantic Routing</div><h4>Segment & scope</h4><p>Foundational models segment raw input and define target vocabulary rules.</p></div>
+        <div class="step"><div class="k">02 · Acoustic Voice Formulation</div><h4>Zero-shot cloning</h4><p>From a secure 1–3 minute reference file, the system renders natural voice.</p></div>
+        <div class="step"><div class="k">03 · News-Anchor Visual Modeling</div><h4>Chest-up matrix</h4><p>Hyper-realistic micro-expressions well under the 15-minute SLA.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ LEADERSHIP ═══════════ -->
+<section class="sec" id="leadership">
+  <div class="wrap">
+    <div data-reveal="up">
+      <div class="eyebrow">Capital Structure · Crucifer Investments LLC</div>
+      <h1 style="font-size:clamp(2.4rem,5vw,4rem);margin:22px 0 24px">Engineered in Dubai.<br>Deployed Globally.</h1>
+      <p class="lead">Crucifer AI Technologies Global L.L.C. operates with the full strategic and financial backing of Crucifer Investments LLC — our Dubai-headquartered parent entity.</p>
+    </div>
+
+    <div class="mt-l">
+      <div class="eyebrow" style="margin-bottom:32px" data-reveal="up">The Executive Records</div>
+      <div class="exec-grid stag">
+        <div class="exec" data-reveal="up">
+          <div class="portrait"><div class="mono-mark">CR</div></div>
+          <div class="body">
+            <div class="role">Founder & Chairman</div>
+            <h3>Dr. Christopher Richard</h3>
+            <div class="frame">Self-Taught. Self-Made. Still Learning.</div>
+            <p>A master technology visionary with three decades of cross-market experience. Founded and scaled G7 CR Technologies to $75M annual turnover, securing Microsoft Country Partner of the Year.</p>
+          </div>
+        </div>
+        <div class="exec" data-reveal="up">
+          <div class="portrait"><div class="mono-mark">JL</div></div>
+          <div class="body">
+            <div class="role">Co-Founder & Director</div>
+            <h3>Jesintha Louis</h3>
+            <div class="frame">The Growth Accelerator.</div>
+            <p>Co-Founder at Crucifer Investments and former CEO of Cloud Services at G7 CR Technologies. Drove corporate revenues from 0 to $50M while defending an elite 95% client-retention rate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-l stag" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+      <div class="card" data-reveal="up"><div class="tag">Ownership</div><h3 style="font-size:1.1rem">100% Funded</h3><p>Wholly owned by Crucifer Investments LLC — no external dependency.</p></div>
+      <div class="card" data-reveal="up"><div class="tag">Allocation</div><h3 style="font-size:1.1rem">Diversified Capital</h3><p>Global real estate, private equity, and AI equities across NASDAQ.</p></div>
+      <div class="card" data-reveal="up"><div class="tag">Mandate</div><h3 style="font-size:1.1rem">Purpose-Led</h3><p>Investment that transforms lives through technology.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════ CAREERS ═══════════ -->
+<section class="sec" id="careers">
+  <div class="wrap">
+    <div data-reveal="up">
+      <div class="eyebrow">The Outlier Network</div>
+      <p class="manifesto mt-s">You don't have to be crazy to join us… <span class="z">but it definitely helps if you are.</span></p>
+      <div class="quote">
+        <p>We're building the future of autonomous systems and generative AI. We don't look for cogs in a machine — we look for the visionaries who see the code behind the curtain.</p>
+      </div>
+      <div class="hero-actions" style="margin-top:40px">
+        <button class="btn btn-orange"><span class="tri"></span>Join the Crucifer Squad</button>
+        <span class="mono" style="align-self:center;color:var(--text-4);font-size:.8rem">careers.crucifer.ai</span>
+      </div>
+    </div>
+
+    <div class="mt-l">
+      <div class="sec-head" data-reveal="up">
+        <div class="eyebrow">The Hiring Crucible · Selection Flow</div>
+        <h2>Welcome to The Crucible.</h2>
+      </div>
+      <div class="steps" data-reveal="left">
+        <div class="step"><div class="k">Stage 01 · The Profile Gate</div><h4>Structural evaluation</h4><p>Direct assessment of portfolio execution and code-repository contributions.</p></div>
+        <div class="step"><div class="k">Stage 02 · The 48-Hour Pressure Simulation</div><h4>Role stress-test</h4><p>A rigorous simulation designed to challenge processing speed under hard constraints.</p></div>
+        <div class="step"><div class="k">Stage 03 · The Alignment Core</div><h4>Founder's Office</h4><p>Strategic baseline validation session held live with the Founder's Office.</p></div>
+      </div>
+    </div>
+
+    <div class="mt-l">
+      <div class="eyebrow" style="margin-bottom:28px" data-reveal="up">Open Internet Deployment · JDs</div>
+      <div class="jd stag">
+        <div class="cell" data-reveal="up"><span class="dept">Deep R&D · PAWS</span><h4>Lead ML Engineer <span class="lvl">· LMM & RAG · Lvl 4</span></h4><p>Architect the core multi-agent ingestion engines powering the PAWS stack.</p><span class="apply">Submit Core Profile & Start Technical Crucible</span></div>
+        <div class="cell" data-reveal="up"><span class="dept">Deep R&D · PAWS</span><h4>AI Synthetic Avatar Specialist <span class="lvl">· Lvl 3</span></h4><p>Drive our generative video-rendering pipeline with neural rendering.</p><span class="apply">Submit Core Profile & Start Technical Crucible</span></div>
+        <div class="cell" data-reveal="up"><span class="dept">Enterprise · RAISE</span><h4>Enterprise ML Consultant <span class="lvl">· ROI Execution</span></h4><p>Audit enterprise workflows and guarantee a 400% combined ROI engine.</p><span class="apply">Submit Core Profile & Start Technical Crucible</span></div>
+        <div class="cell" data-reveal="up"><span class="dept">The Founder's Office</span><h4>Strategy & Operations Associate</h4><p>Execute the end-to-end operational roadmap for our global Academy rollout.</p><span class="apply">Submit Core Profile & Start Technical Crucible</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap foot-top">
+    <div>
+      <svg width="180" height="160" viewBox="0 0 215 192" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:16px">
+        <g>
+          <path fill="#1a479c" d="M88.11,55.42c5.12-4.73,11.96-7.6,19.46-7.6,6.52,0,12.55,2.17,17.37,5.84,1.79,1.36,3.95,2.18,6.19,2.3.01,0,.02,0,.04,0,5.33.4,9.96.25,13.99-.3-4.65-8.29-11.94-14.89-20.74-18.64-.07-.03-.15-.06-.22-.09-1.2-.5-2.43-.96-3.69-1.35-.09-.03-.17-.05-.26-.08-1.3-.4-2.63-.74-3.98-1.02-.01,0-.02,0-.04,0-2.8-.57-5.7-.87-8.67-.87-23.8,0-43.09,19.29-43.09,43.09,0,1.48.08,2.95.22,4.39,0,.01,0,.03,0,.04.14,1.4.36,2.77.63,4.12.02.09.04.19.06.28.26,1.23.57,2.44.93,3.63.06.2.12.41.18.61.33,1.03.71,2.04,1.11,3.04.13.32.25.64.38.95.35.81.75,1.6,1.15,2.38.23.44.43.9.67,1.34.24.43.51.84.77,1.26,1.55,2.58,3.35,4.99,5.38,7.19.19.21.38.43.58.63.61.63,1.25,1.24,1.9,1.83.32.3.65.6.98.89.57.5,1.17.97,1.77,1.44.48.37.97.74,1.46,1.09.5.36,1.01.7,1.52,1.04.7.45,1.42.89,2.14,1.3.35.2.71.41,1.07.6,1.06.57,2.15,1.1,3.27,1.57.06.03.12.05.17.08,5.15,2.17,10.8,3.37,16.73,3.37,8.86,0,17.09-2.68,23.94-7.26.09-.06.18-.12.27-.18,1.08-.73,2.12-1.51,3.12-2.33.08-.06.15-.13.23-.2,1.73-1.44,3.32-3.04,4.81-4.73l-10.68-9.35c-6.12,6.99-15.57,11-25.86,9.55-12.35-1.74-22.42-11.64-24.34-23.97-1.57-10.11,2.13-19.5,8.83-25.71.06-.07.13-.13.23-.2Z"/>
+          <path fill="#84e4ff" d="M6.09,165.81L.07,179.18h2.56l1.32-3.09h6.68l1.34,3.09h2.6l-6.04-13.37h-2.45ZM4.79,174.14l2.5-5.84,2.52,5.84h-5.02Z"/>
+          <rect fill="#84e4ff" x="18.54" y="165.81" width="2.48" height="13.37"/>
+          <polygon fill="#84e4ff" points="32.73,167.92 37.17,167.92 37.17,179.18 39.65,179.18 39.65,167.92 44.08,167.92 44.08,165.81 32.73,165.81 32.73,167.92"/>
+          <polygon fill="#84e4ff" points="50.71,173.42 57.16,173.42 57.16,171.37 50.71,171.37 50.71,167.9 57.99,167.9 57.99,165.81 48.23,165.81 48.23,179.18 58.25,179.18 58.25,177.1 50.71,177.1 50.71,173.42"/>
+          <path fill="#84e4ff" d="M67.1,168.4c.73-.4,1.55-.6,2.46-.6,1.41,0,2.6.52,3.57,1.57l1.6-1.51c-.62-.73-1.39-1.28-2.29-1.66s-1.9-.57-3-.57c-1.35,0-2.57.3-3.66.89s-1.95,1.41-2.57,2.45c-.62,1.04-.94,2.22-.94,3.53s.31,2.49.93,3.53c.62,1.04,1.47,1.86,2.56,2.45s2.31.89,3.66.89c1.09,0,2.1-.19,3.01-.57.91-.38,1.68-.94,2.3-1.66l-1.6-1.53c-.97,1.06-2.16,1.58-3.57,1.58-.92,0-1.74-.2-2.46-.6s-1.29-.96-1.7-1.67c-.41-.71-.61-1.52-.61-2.42s.2-1.71.61-2.43.97-1.27,1.7-1.67Z"/>
+          <polygon fill="#84e4ff" points="88.79,171.33 81.88,171.33 81.88,165.81 79.4,165.81 79.4,179.18 81.88,179.18 81.88,173.45 88.79,173.45 88.79,179.18 91.28,179.18 91.28,165.81 88.79,165.81 88.79,171.33"/>
+          <polygon fill="#84e4ff" points="106.56,174.87 99.18,165.81 97.14,165.81 97.14,179.18 99.6,179.18 99.6,170.13 106.98,179.18 109.02,179.18 109.02,165.81 106.56,165.81 106.56,174.87"/>
+          <path fill="#84e4ff" d="M124.82,166.51c-1.1-.59-2.32-.89-3.69-.89s-2.59.3-3.69.89-1.96,1.41-2.58,2.46c-.62,1.05-.94,2.23-.94,3.52s.31,2.47.94,3.52c.62,1.05,1.48,1.87,2.58,2.46s2.32.89,3.69.89,2.59-.3,3.69-.89c1.09-.59,1.95-1.41,2.58-2.45.62-1.04.94-2.22.94-3.53s-.31-2.49-.94-3.53c-.62-1.04-1.48-1.86-2.58-2.45ZM125.22,174.92c-.41.72-.97,1.28-1.68,1.68-.71.4-1.51.6-2.41.6s-1.69-.2-2.41-.6-1.27-.96-1.68-1.68c-.41-.72-.61-1.53-.61-2.42s.2-1.7.61-2.42c.41-.72.97-1.28,1.68-1.68.71-.4,1.52-.6,2.41-.6s1.69.2,2.41.6c.71.4,1.27.96,1.68,1.68.41.72.61,1.53.61,2.42s-.2,1.7-.61,2.42Z"/>
+          <polygon fill="#84e4ff" points="135.72,165.81 133.24,165.81 133.24,179.18 142.71,179.18 142.71,177.08 135.72,177.08 135.72,165.81"/>
+          <path fill="#84e4ff" d="M156.64,166.51c-1.1-.59-2.32-.89-3.69-.89s-2.59.3-3.69.89c-1.09.59-1.95,1.41-2.58,2.46s-.94,2.23-.94,3.52.31,2.47.94,3.52,1.48,1.87,2.58,2.46c1.1.59,2.32.89,3.69.89s2.59-.3,3.69-.89c1.09-.59,1.95-1.41,2.58-2.45s.94-2.22.94-3.53-.31-2.49-.94-3.53c-.62-1.04-1.48-1.86-2.58-2.45ZM157.04,174.92c-.41.72-.97,1.28-1.68,1.68-.71.4-1.51.6-2.41.6s-1.69-.2-2.41-.6c-.71-.4-1.27-.96-1.68-1.68-.41-.72-.61-1.53-.61-2.42s.2-1.7.61-2.42c.41-.72.97-1.28,1.68-1.68.71.4,1.51.6,2.41.6s1.69.2,2.41.6c.71.4,1.27.96,1.68,1.68.41.72.61,1.53.61,2.42s-.2,1.7-.61,2.42Z"/>
+          <rect fill="#84e4ff" x="182.08" y="165.81" width="2.48" height="13.37"/>
+          <polygon fill="#84e4ff" points="192.93,173.42 199.38,173.42 199.38,171.37 192.93,171.37 192.93,167.9 200.2,167.9 200.2,165.81 190.44,165.81 190.44,179.18 200.47,179.18 200.47,177.1 192.93,177.1 192.93,173.42"/>
+          <path fill="#84e4ff" d="M214.39,173.34c-.45-.51-1-.89-1.63-1.14-.64-.25-1.45-.49-2.44-.72-.73-.18-1.3-.34-1.72-.48-.42-.14-.77-.33-1.04-.57-.27-.24-.41-.55-.41-.94,0-.55.24-.99.72-1.32.48-.33,1.21-.5,2.19-.5.6,0,1.22.09,1.85.27.64.18,1.25.44,1.83.78l.78-1.93c-.57-.38-1.25-.67-2.04-.88-.79-.2-1.59-.3-2.41-.3-1.17,0-2.16.18-2.97.53s-1.41.84-1.81,1.44-.6,1.28-.6,2.01c0,.88.23,1.58.68,2.09s.99.89,1.62,1.14c.63.24,1.45.48,2.47.73.73.18,1.3.34,1.72.48.42.14.77.33,1.04.58.27.25.41.56.41.95,0,.52-.25.94-.74,1.26-.49.32-1.23.48-2.22.48-.8,0-1.6-.14-2.4-.41s-1.47-.63-2.01-1.06l-.86,1.93c.56.48,1.32.87,2.28,1.17.96.29,1.96.44,2.99.44,1.17,0,2.16-.18,2.98-.54.81-.36,1.42-.83,1.82-1.43.4-.6.6-1.27.6-2.01,0-.87-.23-1.55-.68-2.06Z"/>
+          <path fill="#84e4ff" d="M168.95,168.39c.73-.39,1.57-.59,2.51-.59,1.44,0,2.67.51,3.69,1.53l1.57-1.53c-.62-.71-1.39-1.25-2.31-1.62-.92-.37-1.94-.55-3.06-.55-1.38,0-2.61.3-3.71.89s-1.96,1.41-2.59,2.45c-.62,1.04-.94,2.22-.94,3.53s.31,2.49.94,3.53,1.48,1.86,2.58,2.45c1.1.59,2.32.89,3.69.89.97,0,1.91-.15,2.83-.44s1.72-.71,2.41-1.26v-6.35h-6.13v2.35h3.78v2.84c-.79.46-1.71.69-2.75.69-.93,0-1.76-.2-2.49-.61-.73-.41-1.31-.97-1.72-1.68-.41-.71-.62-1.52-.62-2.41s.21-1.73.62-2.45c.41-.71.99-1.27,1.72-1.66Z"/>
+          <path fill="#fa4e0a" d="M7.48,158.12c-2.34-1.27-4.17-3.03-5.49-5.27-1.33-2.24-1.99-4.77-1.99-7.58s.67-5.34,2.01-7.58c1.34-2.24,3.18-4,5.51-5.27,2.34-1.27,4.95-1.91,7.85-1.91,2.35,0,4.5.41,6.44,1.23,1.94.82,3.58,2.01,4.92,3.57l-3.44,3.24c-2.08-2.24-4.63-3.36-7.67-3.36-1.97,0-3.73.43-5.29,1.29-1.56.86-2.77,2.06-3.65,3.59-.88,1.53-1.31,3.27-1.31,5.21s.44,3.68,1.31,5.21c.87,1.53,2.09,2.73,3.65,3.59,1.56.86,3.32,1.29,5.29,1.29,3.03,0,5.59-1.13,7.67-3.4l3.44,3.28c-1.34,1.56-2.99,2.75-4.94,3.57-1.95.82-4.11,1.23-6.46,1.23-2.9,0-5.51-.64-7.85-1.91Z"/>
+          <path fill="#fa4e0a" d="M50.63,159.62l-5.86-8.4c-.25.03-.62.04-1.11.04h-6.48v8.36h-5.33v-28.7h11.81c2.49,0,4.65.41,6.5,1.23,1.85.82,3.26,2,4.24,3.53.98,1.53,1.48,3.35,1.48,5.45s-.53,4.02-1.58,5.57c-1.05,1.56-2.56,2.72-4.53,3.49l6.6,9.43h-5.74ZM48.7,136.91c-1.2-.98-2.96-1.48-5.29-1.48h-6.23v11.44h6.23c2.32,0,4.08-.5,5.29-1.5s1.8-2.41,1.8-4.24-.6-3.24-1.8-4.22Z"/>
+          <path fill="#fa4e0a" d="M64.89,156.69c-2.21-2.23-3.32-5.42-3.32-9.57v-16.19h5.33v15.99c0,5.63,2.43,8.44,7.3,8.44s7.26-2.81,7.26-8.44v-15.99h5.25v16.19c0,4.16-1.1,7.35-3.3,9.57-2.2,2.23-5.28,3.34-9.24,3.34s-7.05-1.11-9.26-3.34Z"/>
+          <path fill="#fa4e0a" d="M99.6,158.12c-2.34-1.27-4.17-3.03-5.49-5.27-1.33-2.24-1.99-4.77-1.99-7.58s.67-5.34,2.01-7.58c1.34-2.24,3.18-4,5.51-5.27,2.34-1.27,4.95-1.91,7.85-1.91,2.35,0,4.5.41,6.44,1.23,1.94.82,3.58,2.01,4.92,3.57l-3.44,3.24c-2.08-2.24-4.63-3.36-7.67-3.36-1.97,0-3.73.43-5.29,1.29-1.56.86-2.77,2.06-3.65,3.59-.88,1.53-1.31,3.27-1.31,5.21s.44,3.68,1.31,5.21c.87,1.53,2.09,2.73,3.65,3.59,1.56.86,3.32,1.29,5.29,1.29,3.03,0,5.59-1.13,7.67-3.4l3.44,3.28c-1.34,1.56-2.99,2.75-4.94,3.57-1.95.82-4.11,1.23-6.46,1.23-2.9,0-5.51-.64-7.85-1.91Z"/>
+          <path fill="#fa4e0a" d="M123.97,130.92h5.33v28.7h-5.33v-28.7Z"/>
+          <path fill="#fa4e0a" d="M142.37,135.39v8.73h13.85v4.51h-13.85v10.99h-5.33v-28.7h20.95v4.47h-15.62Z"/>
+          <path fill="#fa4e0a" d="M184.68,155.15v4.47h-21.52v-28.7h20.95v4.47h-15.62v7.46h13.85v4.39h-13.85v7.91h16.19Z"/>
+          <path fill="#fa4e0a" d="M209.4,159.62l-5.86-8.4c-.24.03-.61.04-1.11.04h-6.48v8.36h-5.33v-28.7h11.81c2.49,0,4.65.41,6.5,1.23,1.84.82,3.26,2,4.24,3.53.98,1.53,1.48,3.35,1.48,5.45s-.53,4.02-1.58,5.57c-1.05,1.56-2.56,2.72-4.53,3.49l6.6,9.43h-5.74ZM207.47,136.91c-1.2-.98-2.97-1.48-5.29-1.48h-6.23v11.44h6.23c2.32,0,4.09-.5,5.29-1.5,1.2-1,1.8-2.41,1.8-4.24s-.6-3.24-1.8-4.22Z"/>
+          <rect fill="#fa4e0a" x="0" y="187.52" width="37.18" height="1.03"/>
+          <rect fill="#fa4e0a" x="177.96" y="187.52" width="37.18" height="1.03"/>
+        </g>
+      </svg>
+      <p>Crucifer AI Technologies Global L.L.C. is a wholly-owned subsidiary of Crucifer Investments LLC.</p>
+    </div>
+    <div>
+      <h5>Global HQ</h5>
+      <p class="mono" style="font-size:.8rem;line-height:2;color:var(--text-2)">Office #850<br>Tamani Arts Offices<br>Business Bay, Dubai, UAE</p>
+    </div>
+    <div>
+      <h5>Regional Footprint</h5>
+      <div class="region">
+        Dubai — Global HQ<br>
+        India — ODC & Deep Tech Center<br>
+        USA & Singapore — Market Expansion
+      </div>
+    </div>
+  </div>
+  <div class="wrap" style="padding-bottom:36px">
+    <h5>Accreditation & Testing Clearances</h5>
+    <div class="badges">
+      <span class="badge">KHDA Permit 633728</span><span class="badge">Microsoft Partner</span><span class="badge">Google Cloud Partner</span>
+      <span class="badge">Pearson BTEC</span><span class="badge">NCFE</span><span class="badge">Qualifi</span><span class="badge">CPD UK</span><span class="badge">Prometric</span>
+    </div>
+  </div>
+  <div class="wrap foot-btm">
+    <span class="permit">KHDA PERMITTED TRAINING INSTITUTION · PERMIT NO. 633728</span>
+    <span>© 2025 CRUCIFER AI TECHNOLOGIES · ARCHITECTING TRUE INTELLIGENCE</span>
+  </div>
+</footer>
+
+<script>
+/* ── SCROLL PROGRESS ── */
+const sp=document.getElementById('scrollProg');
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;sp.style.transform=`scaleX(${h>0?window.scrollY/h:0})`});
+
+/* ── NAV SCROLL ── */
+const tn=document.getElementById('topNav');
+window.addEventListener('scroll',()=>tn.classList.toggle('scrolled',window.scrollY>60));
+
+/* ── SMOOTH SCROLL ── */
+function smoothTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('navlinks').classList.remove('open')}
+
+/* ── ACTIVE NAV ── */
+const secs=['hero','flywheel','academy','raise','paws','leadership','careers'];
+const navAs=document.querySelectorAll('.nav-links a[data-s]');
+function updateNav(){let c='hero';for(const id of secs){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=200)c=id}
+navAs.forEach(a=>a.classList.toggle('active',a.dataset.s===c))}
+window.addEventListener('scroll',updateNav);
+
+/* ── SCROLL REVEAL ── */
+const revEls=document.querySelectorAll('[data-reveal]');
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');e.target.querySelectorAll('[data-width]').forEach(bar=>{setTimeout(()=>{bar.style.width=bar.dataset.width},400)})}})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+revEls.forEach(el=>revObs.observe(el));
+
+/* ── CARD 3D TILT ── */
+document.querySelectorAll('.card,.phase,.jd .cell,.gauge,.stat,.exec').forEach(card=>{
+  card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width;const y=(e.clientY-r.top)/r.height;
+    card.style.transform=`perspective(900px) rotateX(${(y-.5)*-5}deg) rotateY(${(x-.5)*5}deg) translateZ(6px)`;
+    card.style.setProperty('--mx',(x*100)+'%');card.style.setProperty('--my',(y*100)+'%')});
+  card.addEventListener('mouseleave',()=>{card.style.transform=''})});
+
+/* ── TRUST BAR ── */
+const trust=['KHDA Permit No. 633728','Microsoft Partner','Google Cloud Partner','Pearson BTEC','NCFE','Qualifi','CPD UK','Prometric'];
+document.getElementById('trust').innerHTML=trust.map(t=>`<span><b>▸</b> ${t}</span>`).join('')+trust.map(t=>`<span><b>▸</b> ${t}</span>`).join('');
+
+/* ── FLYWHEEL ── */
+const pillars=[
+  {id:'academy',num:'01',label:'ACADEMY',pill:'Human Capital Engine',title:'The Academy',
+   body:'We forge the world\'s most elite AI architects through a zero-compromise, 100% Knowledge Guarantee framework.',cta:'academy'},
+  {id:'raise',num:'02',label:'RAISE',pill:'Enterprise Revenue & IP',title:'Crucifer RAISE',
+   body:'We shift global enterprises from renting fragile third-party APIs to owning proprietary, exception-handling ML assets.',cta:'raise'},
+  {id:'paws',num:'03',label:'PAWS',pill:'Proprietary R&D Moonshot',title:'The PAWS Engine',
+   body:'A $1M / 12-month R&D sprint to eliminate manual instructional design — an autonomous LMM pipeline.',cta:'paws'}
+];
+const cx=250,cy=250,R=172;
+const nodesG=document.getElementById('nodes');
+const connG=document.getElementById('connectors');
+pillars.forEach((p,i)=>{
+  const ang=(-90+i*120)*Math.PI/180;
+  const x=cx+R*Math.cos(ang),y=cy+R*Math.sin(ang);
+  connG.insertAdjacentHTML('beforeend',`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" data-line="${p.id}"/>`);
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','node');g.setAttribute('tabindex','0');g.setAttribute('role','button');
+  g.setAttribute('aria-label',p.title);g.dataset.id=p.id;
+  g.innerHTML=`<circle cx="${x}" cy="${y}" r="48" style="fill:var(--surface-2);stroke:rgba(26,71,156,.15);stroke-width:1.5;transition:.3s"/>
+    <text x="${x}" y="${y-7}" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--orange)" text-anchor="middle" font-weight="700">${p.num}</text>
+    <text x="${x}" y="${y+13}" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--cobalt-light)" text-anchor="middle" font-weight="500" letter-spacing=".1em">${p.label}</text>`;
+  g.addEventListener('click',()=>selectNode(p.id));
+  g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectNode(p.id)}});
+  nodesG.appendChild(g);
+});
+function selectNode(id){
+  const p=pillars.find(x=>x.id===id);
+  document.querySelectorAll('.node').forEach(n=>{
+    const on=n.dataset.id===id;
+    const c=n.querySelector('circle');
+    c.style.fill=on?'rgba(132,228,255,.06)':'var(--surface-2)';
+    c.style.stroke=on?'var(--cyan)':'rgba(26,71,156,.15)';
+    c.style.filter=on?'drop-shadow(0 0 12px rgba(132,228,255,.35))':'none'});
+  document.querySelectorAll('#connectors line').forEach(l=>{
+    l.style.stroke=l.dataset.line===id?'var(--cyan)':'rgba(26,71,156,.12)';
+    l.style.strokeWidth=l.dataset.line===id?'2.5':'1.2'});
+  const d=document.getElementById('flyDetail');
+  d.style.animation='none';void d.offsetWidth;d.style.animation='fadeUp .4s var(--ease-out)';
+  d.innerHTML=`<div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent)"></div>
+    <div style="font-family:JetBrains Mono,monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px">PILLAR ${p.num} · ${p.pill}</div>
+    <h3 style="margin-bottom:12px">${p.title}</h3><p style="color:var(--text-2)">${p.body}</p>
+    <div style="margin-top:24px"><button class="btn btn-cyan" onclick="smoothTo('${p.cta}')">Explore ${p.label} →</button></div>`;
+}
+selectNode('academy');
+
+/* ── FADE UP KEYFRAME ── */
+const style=document.createElement('style');
+style.textContent='@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
